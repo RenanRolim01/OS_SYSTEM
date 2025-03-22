@@ -11,7 +11,7 @@ const login = async (req, res) => {
   }
 
   const user = await User.findOne({ username });
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  if (!user || !(password === user.password)) {
     return res.status(401).json({ message: 'Credenciais inválidas' });
   }
 
