@@ -1,25 +1,12 @@
-// config/db.js
 const mongoose = require('mongoose');
 
-const connectDB = async (mongoURI) => {
-  try {
-    console.log('Valor de mongoURI recebido:', mongoURI);
-    if (!mongoURI) {
-      throw new Error('MONGO_URI não definido.');
-    }
-
-    console.log('Conectando ao MongoDB com URI:', mongoURI);
-
-    await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    console.log('MongoDB conectado com sucesso');
-  } catch (error) {
-    console.error('Erro ao conectar ao MongoDB:', error.message);
-    process.exit(1);
-  }
+const connectDB = (mongoURI) => {
+  console.log('Conectando ao MongoDB com URI:', mongoURI);
+  mongoose.connect(mongoURI, {
+    serverSelectionTimeoutMS: 30000, // Timeout de 30s
+  })
+    .then(() => console.log('MongoDB conectado'))
+    .catch((err) => console.error('Erro ao conectar ao MongoDB:', err.message));
 };
 
 module.exports = connectDB;
